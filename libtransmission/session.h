@@ -240,6 +240,7 @@ private:
         [[nodiscard]] std::optional<std::string> bind_address_V6() const override;
         [[nodiscard]] std::optional<std::string_view> userAgent() const override;
         [[nodiscard]] size_t clamp(int torrent_id, size_t byte_count) const override;
+        [[nodiscard]] std::optional<std::string_view> proxyUrl() const override;
         [[nodiscard]] time_t now() const override;
         void notifyBandwidthConsumed(int torrent_id, size_t byte_count) override;
         // runs the tr_web::fetch response callback in the libtransmission thread
@@ -1174,7 +1175,7 @@ private:
 
     // depends-on: settings_, session_thread_, torrents_, global_ip_cache (via tr_session::bind_address())
     WebMediator web_mediator_{ this };
-    std::unique_ptr<tr_web> web_ = tr_web::create(this->web_mediator_);
+    std::unique_ptr<tr_web> web_;
 
 public:
     // depends-on: settings_, open_files_, torrents_
